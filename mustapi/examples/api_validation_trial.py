@@ -6,7 +6,7 @@ import requests
 
 class APIKeyManager:
     @staticmethod
-    def validate_api_key(api_key_prefix: str, base_url: str) -> Dict[str, Any]:
+    def validate_api_key(api_key: str, base_url: str) -> Dict[str, Any]:
         """
         Validate an API key by sending a request to an external API endpoint.
         Args:
@@ -15,6 +15,7 @@ class APIKeyManager:
         Returns:
             dict: Validation result with key details or failure reason.
         """
+        api_key_prefix = api_key[:8]
         # Construct the full URL
         url = f"{base_url}/devs/{api_key_prefix}"
         try:
@@ -46,7 +47,7 @@ class APIKeyManager:
             return {'valid': False, 'reason': f'Failed to connect to external service: {str(e)}'}
 
 # Test the API key and print the application name
-result = APIKeyManager.validate_api_key('AQFnxi1_','http://127.0.0.1:8000')
+result = APIKeyManager.validate_api_key('bT1ycZ1Uv23q6HKoSI1_xW-TiLSO_lUbSvWyOKiwJDk','http://127.0.0.1:8000')
 
 if result['valid']:
     application_name = result['details'].get('application_name')

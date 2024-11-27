@@ -1,4 +1,4 @@
-from mustapi.client import MustAPIClient
+from mustapi.client.client import MustAPIClient
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -12,7 +12,33 @@ class EventDemoOperations:
         """
         self.client = MustAPIClient(api_key=api_key)
     
-    def list_events_example(self, limit: int = 10) -> None:
+    # def list_events_example(self, limit: int = 10) -> None:
+    #     """
+    #     Demonstrate listing events with optional limit
+        
+    #     Args:
+    #         limit (int, optional): Maximum number of events to retrieve. Defaults to 10.
+    #     """
+    #     print("\n--- Listing Events ---")
+    #     try:
+    #         events = self.client.events.list_events(limit=limit)
+            
+    #         if  events:
+    #             print("No events found.")
+    #             return
+            
+    #         print(f"Retrieved {len(events)} events:")
+    #         for event in events:
+    #             print(f"Event ID: {event.id}")
+    #             print(f"Title: {event.title}")
+    #             print(f"Description: {event.description or 'No description'}")
+    #             print("---")
+        
+    #     except Exception as e:
+    #         print(f"Error listing events: {str(e)}")
+
+
+    def list_events_example(self) -> None:
         """
         Demonstrate listing events with optional limit
         
@@ -21,9 +47,9 @@ class EventDemoOperations:
         """
         print("\n--- Listing Events ---")
         try:
-            events = self.client.events.list_events(limit=limit)
+            events = self.client.events.list_events()
             
-            if not events:
+            if not  events:
                 print("No events found.")
                 return
             
@@ -32,11 +58,10 @@ class EventDemoOperations:
                 print(f"Event ID: {event.id}")
                 print(f"Title: {event.title}")
                 print(f"Description: {event.description or 'No description'}")
-                print(f"Start Time: {event.start_time or 'Not specified'}")
                 print("---")
         
         except Exception as e:
-            print(f"Error listing events: {e}")
+            print(f"Error listing events: {str(e)}")
     
     def create_event_example(self, title: Optional[str] = None) -> str:
         """
@@ -86,8 +111,8 @@ class EventDemoOperations:
         
         try:
             # If no event_id provided, create a new event
-            if not event_id:
-                event_id = self.create_event_example()
+            # if not event_id:
+            #     event_id = self.create_event_example()
             
             if not event_id:
                 print("Could not retrieve event: No event ID available")
@@ -99,7 +124,7 @@ class EventDemoOperations:
             print(f"ID: {retrieved_event.id}")
             print(f"Title: {retrieved_event.title}")
             print(f"Description: {retrieved_event.description or 'No description'}")
-            print(f"Start Time: {retrieved_event.start_time or 'Not specified'}")
+            print(f"Start Time: {retrieved_event.date or 'Not specified'}")
             print(f"Location: {retrieved_event.location or 'No location specified'}")
         
         except Exception as e:
@@ -211,34 +236,35 @@ class EventDemoOperations:
 
 def main():
     # Replace with your actual API key
-    API_KEY = 'your_api_key_here'
+    # API_KEY = 'your_api_key_here'
+    API_KEY = ''
     
     # Initialize event operations
-    event_ops = EventDemoOperations(API_KEY)
+    event_ops = EventDemoOperations(api_key=API_KEY)
     
     # Demonstrate various event operations
     print("🚀 MustAPI Event Operations Demonstration 🚀")
     
     # List base example
-    event_ops.list_events_example()
+    # event_ops.list_events_example()
     
-    # Create an event
-    created_event_id = event_ops.create_event_example()
+    # # Create an event
+    # created_event_id = event_ops.create_event_example()
     
     # Retrieve the created event
-    event_ops.get_event_example(created_event_id)
+    event_ops.get_event_example("1")  #this is working well
     
-    # Update the event
-    event_ops.update_event_example(created_event_id)
+    # # Update the event
+    # event_ops.update_event_example(created_event_id)
     
-    # Advanced filtering example
-    event_ops.filtered_events_example(
-        start_date=datetime.now(), 
-        category='technology'
-    )
+    # # Advanced filtering example
+    # event_ops.filtered_events_example(
+    #     start_date=datetime.now(), 
+    #     category='technology'
+    # )
     
-    # Delete the event
-    event_ops.delete_event_example(created_event_id)
+    # # Delete the event
+    # event_ops.delete_event_example(created_event_id)
 
 if __name__ == '__main__':
     main()
